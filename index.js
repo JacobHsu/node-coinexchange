@@ -4,16 +4,19 @@ const app = express()
 const router = express.Router()
 const _ = require('lodash');
 
+app.use(cors({credentials: true, origin: true}))
+app.options('/products')
+
 app.use('/market', router)
 
-router.get('/test', cors(), function (req, res) {
+router.get('/test', function (req, res) {
   res.json({
     errno: 0,
     etf: './jobs/symbol'
   })
 })
 
-router.post('/symbol-thumb', cors(), function (req, res) {
+router.post('/symbol-thumb', function (req, res) {
   require('./jobs/symbol')(function(cb){
     const resTake = _.take(cb, 3)
     res.json(resTake)
